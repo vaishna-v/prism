@@ -1,0 +1,228 @@
+// This file only contains examples for JAVA FX for ease of use
+
+public void start(Stage stage) {
+
+    Button btn = new Button("Click Me");
+    Button btn2 = new Button("DO NOT CLICK ME");
+    VBox root = new VBox();
+    root.getChildren().add(btn);
+    root.getChildren().add(btn2);
+
+    Scene scene = new Scene(root, 400, 300);
+
+    stage.setTitle("My First UI");
+    stage.setScene(scene);
+    stage.show();
+}
+
+
+
+
+
+---------------------------------------------------------------------------
+
+// Set style (css-base styling)
+// This file only contains examples for JAVA FX for ease of use
+
+public void start(Stage stage) {
+
+    Button btn = new Button("Click Me");
+    Button btn2 = new Button("DO NOT CLICK ME");
+    VBox root = new VBox();
+    root.getChildren().add(btn);
+    root.getChildren().add(btn2);
+
+    Scene scene = new Scene(root, 400, 300);
+
+    stage.setTitle("My First UI");
+    stage.setScene(scene);
+    stage.show();
+}
+
+
+
+
+-------------------------------------------------
+
+
+For a verticla menu bar-
+Stage
+ └── Scene
+       └── BorderPane
+             ├── top → VBox (menu)
+             └── center → your content later
+
+    public void start(Stage stage) {
+
+        // Create menu buttons
+        Button b1 = new Button("Home");
+        Button b2 = new Button("Edit");
+        Button b3 = new Button("Settings");
+
+        // VBox = vertical stacking
+        VBox menuBar = new VBox(15); // spacing between buttons
+        menuBar.setPadding(new Insets(15)); // inner space
+        menuBar.setAlignment(Pos.CENTER_LEFT);
+
+        // style
+        menuBar.setStyle("-fx-background-color: #1A1625;");
+
+        String buttonStyle =
+                "-fx-background-color: #8B5CF6;" +
+                "-fx-text-fill: white;" +
+                "-fx-pref-width: 150px;";
+
+        b1.setStyle(buttonStyle);
+        b2.setStyle(buttonStyle);
+        b3.setStyle(buttonStyle);
+
+        // Add buttons automatically
+        menuBar.getChildren().addAll(b1, b2, b3);
+
+        // Root layout
+        BorderPane root = new BorderPane();
+
+        // Put menu at top
+        root.setTop(menuBar);
+
+        Scene scene = new Scene(root, 600, 400);
+
+        stage.setTitle("Top Menu Bar");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+------------------------------------------------------------------------------------------
+
+
+HBOX VERTICLA BAR-
+
+
+
+    public void start(Stage stage) {
+
+        BorderPane root = new BorderPane();
+
+        // Horizontal container
+        HBox menuBar = new HBox(15); // spacing
+        menuBar.setPadding(new Insets(10));
+        menuBar.setAlignment(Pos.CENTER_LEFT);
+
+        // background
+        menuBar.setStyle("-fx-background-color: #1A1625;");
+
+        // Button style
+        String buttonStyle =
+                "-fx-background-color: #8B5CF6;" +
+                "-fx-text-fill: white;" +
+                "-fx-pref-height: 35px;";
+
+        // Create buttons dynamically
+        String[] names = {"Home", "Edit", "View", "Help"};
+
+        for (String name : names) {
+            Button b = new Button(name);
+            b.setStyle(buttonStyle);
+            menuBar.getChildren().add(b);
+        }
+
+        // Place at top
+        root.setTop(menuBar);
+
+        Scene scene = new Scene(root, 700, 400);
+
+        stage.setTitle("Horizontal Menu");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+
+--------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+with buttons and all
+
+    public void start(Stage stage) {
+
+        BorderPane root = new BorderPane();
+
+        // 🌌 App background
+        root.setStyle("-fx-background-color: #1A1625;");
+
+        // =====================================================
+        // LEFT SIDE → VERTICAL MENU
+        // =====================================================
+        VBox menu = new VBox(15);
+        menu.setPadding(new Insets(15));
+        menu.setPrefWidth(180);
+        menu.setStyle("-fx-background-color: #14101F;");
+
+        String menuButtonStyle =
+                "-fx-background-color: #8B5CF6;" +
+                "-fx-text-fill: white;" +
+                "-fx-pref-width: 150px;" +
+                "-fx-pref-height: 35px;";
+
+        String[] menuItems = {"Home", "Edit", "View", "Export"};
+
+        for (String name : menuItems) {
+            Button b = new Button(name);
+            b.setStyle(menuButtonStyle);
+            menu.getChildren().add(b);
+        }
+
+        root.setLeft(menu);
+
+        // =====================================================
+        // TOP → TOOLBAR
+        // =====================================================
+        HBox topBar = new HBox(10);
+        topBar.setPadding(new Insets(10));
+        topBar.setAlignment(Pos.CENTER_LEFT);
+        topBar.setStyle("-fx-background-color: #14101F;");
+
+        // Spacer pushes buttons to right
+        Region spacer = new Region();
+        HBox.setHgrow(spacer, Priority.ALWAYS);
+
+        Button undo = new Button("↩");
+        Button redo = new Button("↪");
+
+        String actionButtonStyle =
+                "-fx-background-color: #8B5CF6;" +
+                "-fx-text-fill: white;" +
+                "-fx-pref-width: 40px;" +
+                "-fx-pref-height: 35px;";
+
+        undo.setStyle(actionButtonStyle);
+        redo.setStyle(actionButtonStyle);
+
+        topBar.getChildren().addAll(spacer, undo, redo);
+
+        root.setTop(topBar);
+
+        // =====================================================
+        // CENTER → WORKSPACE (placeholder)
+        // =====================================================
+        StackPane center = new StackPane();
+        root.setCenter(center);
+
+        Scene scene = new Scene(root, 900, 600);
+
+        stage.setTitle("App Shell");
+        stage.setScene(scene);
+        stage.show();
+    }
+
