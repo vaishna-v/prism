@@ -1,6 +1,7 @@
 package imageEngine;
 
 import javax.imageio.ImageIO;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,11 +17,17 @@ public class engine {
 
             image = ImageIO.read(input);
 
+            if (image == null) {
+                System.out.println("Failed to read image: unsupported format or empty file.");
+                return;
+            }
+
             System.out.println("Width: " + image.getWidth());
             System.out.println("Height: " + image.getHeight());
 
         } catch (IOException e) {
             e.printStackTrace();
+            return;
         }
 
 
@@ -29,6 +36,10 @@ public class engine {
         // for accessing one pixel value-
         int x = 100;
         int y = 50;
+        if (x < 0 || y < 0 || x >= image.getWidth() || y >= image.getHeight()) {
+            System.out.println("Requested pixel is out of image bounds.");
+            return;
+        }
         int rgb = image.getRGB(x, y);
         int red   = (rgb >> 16) & 0xFF;
         int green = (rgb >> 8)  & 0xFF;
@@ -44,6 +55,13 @@ public class engine {
 
         try {
             ImageIO.write(image, "png", new File("output_PNG.png"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        BufferedImage greyImage = toGreyScale2(image);
+        try {
+            ImageIO.write(greyImage, "png", new File("output_grayscale.png"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -86,5 +104,14 @@ public class engine {
             throw new RuntimeException(e);
         }
 
+    }
+
+    public static BufferedImage toGreyScale2(BufferedImage img) {
+        System.out.println("Converting to GreyScale2");
+        BufferedImage greyImage = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_BYTE_GRAY);
+        Graphics g = greyImage.getGraphics();
+        g.drawImage(img, 0, 0, null);
+        g.dispose();
+        return greyImage;
     }
 }
