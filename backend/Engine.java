@@ -6,29 +6,13 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class engine {
 
+public class Engine {
+
+
+    /*          CODE I WROTE EARLIER WHILE LEARNING
     public static void main(String[] args) {
 
-        BufferedImage image = null;
-        // for printing new file dimension-
-        try {
-            File input = new File("input.jpg");
-
-            image = ImageIO.read(input);
-
-            if (image == null) {
-                System.out.println("Failed to read image: unsupported format or empty file.");
-                return;
-            }
-
-            System.out.println("Width: " + image.getWidth());
-            System.out.println("Height: " + image.getHeight());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            return;
-        }
 
 
 
@@ -105,6 +89,55 @@ public class engine {
         }
 
     }
+
+
+
+
+         */
+
+    // Save Image by providing its object, format and path
+    public static void saveImage(BufferedImage img, String format, String path)
+    {
+        try {
+            ImageIO.write(img, format, new File(path));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    // Rotates image by 90 degrees
+    public static BufferedImage rotate90AntiClockwise(BufferedImage img)
+    {
+        int height = img.getHeight(), width = img.getWidth();
+        BufferedImage rotatedImage = new BufferedImage(height, width, img.getType());
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                int rgb = img.getRGB(x, y);
+                rotatedImage.setRGB(y, width-1-x, rgb);
+            }
+        }
+        return rotatedImage;
+    }
+
+    // Transpose image
+    public static BufferedImage transpose(BufferedImage img)
+    {
+        int height = img.getHeight(), width = img.getWidth();
+        BufferedImage rotatedImage = new BufferedImage(height, width, img.getType());
+        for(int x = 0; x < width; x++)
+        {
+            for(int y = 0; y < height; y++)
+            {
+                int rgb = img.getRGB(x, y);
+                rotatedImage.setRGB(y, x, rgb);
+            }
+        }
+        return rotatedImage;
+    }
+
 
     public static BufferedImage toGreyScale2(BufferedImage img) {
         System.out.println("Converting to GreyScale2");
