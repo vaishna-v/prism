@@ -69,9 +69,9 @@ public class Engine {
                 blue  = rgb & 0xFF;
 
                 // increase red
-                int newRed = Math.min(255, blue);
-                int newGreen = Math.min(255, red);
-                int newBlue = Math.min(255, green);
+                int newRed = Math.min(255, red*7 + 2);
+                int newGreen = red;
+                int newBlue = green;
 
                 int newRgb = (alpha << 24) |
                         (newRed << 16) |
