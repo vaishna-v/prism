@@ -1,0 +1,18 @@
+# Ignore IntelliJ project file
+prism.iml
+
+# Ignore .idea folders (root and anywhere else)
+.idea/
+**/.idea/
+
+# Ignore compiled package output folder
+imageEngine/
+
+# Ignore all compiled Java class files
+*.class
+
+# Ignore all JPG images
+*.jpg
+
+# But DO NOT ignore this specific file
+!input.jpg

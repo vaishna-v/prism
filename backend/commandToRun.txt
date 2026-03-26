@@ -1,0 +1,1 @@
+javac -d . Engine.java && javac main.java && java Main
