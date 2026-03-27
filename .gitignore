@@ -1,6 +1,10 @@
 # Ignore IntelliJ project file
 prism.iml
 
+# Ignore macOS Finder metadata
+.DS_Store
+**/.DS_Store
+
 # Ignore .idea folders (root and anywhere else)
 .idea/
 **/.idea/
