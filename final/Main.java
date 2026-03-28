@@ -9,106 +9,117 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import java.awt.image.BufferedImage;
-
 import java.io.File;
-
+import javax.imageio.ImageIO;
 
 import Engine.Engine;
 
 public class Main extends Application {
-    Image image;
-    Engine eng = new Engine();
 
+    private Image image;
+    private final Engine eng = new Engine();
+    private final ImageView imageView = new ImageView();
+    private final Label statusLabel = new Label("No image loaded");
 
-    private ImageView imageView = new ImageView();
-    private Label statusLabel = new Label("No tool selected");
-    private String activeTool = "None";
-
-    @Override
     public void start(Stage stage) {
+        imageView.setFitWidth(1100);
+        imageView.setFitHeight(650);
+        imageView.setPreserveRatio(true);
 
+        Button openBtn       = new Button("Open Image");
+        Button transposeBtn  = new Button("Transpose");
+        Button grayscaleBtn  = new Button("Grayscale");
+        Button rotateBtn     = new Button("Rotate");
+        Button contrastBtn   = new Button("Increase Contrast");
+        Button brightnessBtn = new Button("Increase Brightness");
+        Button saveBtn       = new Button("Save Image");
 
-
-        // Add buttons to the UI-
-        Button openBtn = new Button("Open Image");
-        Button transposeButton = new Button("Transpose");
-        Button grayScaleButton = new Button("GrayScale");
-        Button rotateButton = new Button("Rotate");
-
-
-        // Describe function to be called when button is pressed-
         openBtn.setOnAction(e -> openImage(stage));
-        transposeButton.setOnAction(e -> transpose());
-        grayScaleButton.setOnAction(e -> grayscale());
-        rotateButton.setOnAction(e -> rotate());
-        
+        transposeBtn.setOnAction(e -> transpose());
+        grayscaleBtn.setOnAction(e -> grayscale());
+        rotateBtn.setOnAction(e -> rotate());
+        contrastBtn.setOnAction(e -> increaseContrast());
+        brightnessBtn.setOnAction(e -> increaseBrightness());
+        saveBtn.setOnAction(e -> saveImage(stage));
 
+        HBox toolbar = new HBox(10, openBtn, transposeBtn, grayscaleBtn, rotateBtn, contrastBtn, brightnessBtn, saveBtn);
+        toolbar.setAlignment(javafx.geometry.Pos.CENTER);
 
-        // Put button in containers-
-        HBox buttons = new HBox(10, openBtn, transposeButton, grayScaleButton, rotateButton);
-        VBox root = new VBox(10, buttons, imageView, statusLabel);
+        VBox root = new VBox(10, toolbar, imageView, statusLabel);
+        root.setAlignment(javafx.geometry.Pos.CENTER);
 
-
-        // Render the scene
-        Scene scene = new Scene(root, 1200, 800);
         stage.setTitle("Photo Editor");
-        stage.setScene(scene);
+        stage.setScene(new Scene(root, 1200, 800));
         stage.show();
     }
 
     private void openImage(Stage stage) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Open Image");
-
         File file = fileChooser.showOpenDialog(stage);
 
         if (file != null) {
             image = new Image(file.toURI().toString());
             imageView.setImage(image);
-            statusLabel.setText("Image Loaded");
+            statusLabel.setText("Image loaded: " + file.getName());
         }
     }
 
-    private void selectTool(String tool) {
-        activeTool = tool;
-        statusLabel.setText("Active Tool: " + tool);
+    private void saveImage(Stage stage) {
+        if (image == null) { statusLabel.setText("No image to save."); return; }
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Image");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG Image", "*.png"));
+        File file = fileChooser.showSaveDialog(stage);
+
+        if (file != null) {
+            try {
+                BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+                ImageIO.write(bufferedImage, "png", file);
+                statusLabel.setText("Image saved: " + file.getName());
+            } catch (Exception ex) {
+                statusLabel.setText("Failed to save image.");
+            }
+        }
     }
 
-
-
-
-
-
-    // Functions for when a button is pressed-
-
-    private void transpose()
-    {
+    private void transpose() {
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
         bufferedImage = eng.transpose(bufferedImage);
         image = SwingFXUtils.toFXImage(bufferedImage, null);
-        imageView.setImage(image); 
+        imageView.setImage(image);
     }
-    private void grayscale()
-    {
+
+    private void grayscale() {
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
         bufferedImage = eng.toGreyScale2(bufferedImage);
         image = SwingFXUtils.toFXImage(bufferedImage, null);
-        imageView.setImage(image); 
+        imageView.setImage(image);
     }
-    private void rotate()
-    {
+
+    private void rotate() {
         BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
         bufferedImage = eng.rotate90AntiClockwise(bufferedImage);
         image = SwingFXUtils.toFXImage(bufferedImage, null);
-        imageView.setImage(image); 
+        imageView.setImage(image);
     }
 
+    private void increaseContrast() {
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+        bufferedImage = eng.increaseContrast(bufferedImage);
+        image = SwingFXUtils.toFXImage(bufferedImage, null);
+        imageView.setImage(image);
+    }
 
+    private void increaseBrightness() {
+        BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
+        bufferedImage = eng.increaseBrightness(bufferedImage);
+        image = SwingFXUtils.toFXImage(bufferedImage, null);
+        imageView.setImage(image);
+    }
 
-
-
-
-    public static void main(String[] args) {
-        launch();
+    public static void main(String[] args) 
+    { 
+        launch(); 
     }
 }

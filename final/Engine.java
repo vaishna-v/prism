@@ -62,4 +62,48 @@ public class Engine {
         g.dispose();
         return greyImage;
     }
+
+    // Increases brightness of each pixel by 5
+public static BufferedImage increaseBrightness(BufferedImage img)
+{
+    int width = img.getWidth(), height = img.getHeight();
+    BufferedImage result = new BufferedImage(width, height, img.getType());
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            int rgb = img.getRGB(x, y);
+            int a = (rgb >> 24) & 0xFF;
+            int r = Math.min(((rgb >> 16) & 0xFF) + 5, 255);
+            int g = Math.min(((rgb >> 8)  & 0xFF) + 5, 255);
+            int b = Math.min(( rgb        & 0xFF) + 5, 255);
+            result.setRGB(x, y, (a << 24) | (r << 16) | (g << 8) | b);
+        }
+    }
+    return result;
+}
+
+// Increases contrast by 5 using standard contrast formula
+public static BufferedImage increaseContrast(BufferedImage img)
+{
+    int width = img.getWidth(), height = img.getHeight();
+    BufferedImage result = new BufferedImage(width, height, img.getType());
+    double factor = (259.0 * (5 + 255)) / (255.0 * (259 - 5));
+    for (int x = 0; x < width; x++)
+    {
+        for (int y = 0; y < height; y++)
+        {
+            int rgb = img.getRGB(x, y);
+            int a = (rgb >> 24) & 0xFF;
+            int r = (int)((rgb >> 16) & 0xFF);
+            int g = (int)((rgb >> 8)  & 0xFF);
+            int b = (int)( rgb        & 0xFF);
+            r = Math.min(Math.max((int)(factor * (r - 128) + 128), 0), 255);
+            g = Math.min(Math.max((int)(factor * (g - 128) + 128), 0), 255);
+            b = Math.min(Math.max((int)(factor * (b - 128) + 128), 0), 255);
+            result.setRGB(x, y, (a << 24) | (r << 16) | (g << 8) | b);
+        }
+    }
+    return result;
+}
 }
