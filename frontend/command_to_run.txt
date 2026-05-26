@@ -1,2 +1,7 @@
-javac --module-path "C:\javafx-sdk-25.0.2\lib" --add-modules javafx.controls Main.java
-java --module-path "C:\javafx-sdk-25.0.2\lib" --add-modules javafx.controls Main
+javac --module-path "C:\Program Files\Java\javafx-sdk-25.0.3\lib" --add-modules javafx.controls Main.java
+java --module-path "C:\Program Files\Java\javafx-sdk-25.0.3\lib" --add-modules javafx.controls Main
+
+
+
+
+javac --module-path "C:\Program Files\Java\javafx-sdk-25.0.3\lib" --add-modules javafx.controls Main.java && java --module-path "C:\Program Files\Java\javafx-sdk-25.0.3\lib" --add-modules javafx.controls Main

@@ -3,6 +3,7 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
@@ -11,24 +12,52 @@ import java.io.File;
 
 public class Main extends Application {
 
-    private ImageView imageView = new ImageView();
-    private Label statusLabel = new Label("No tool selected");
-    private String activeTool = "None";
+    private Image image;
+    private final ImageView imageView = new ImageView();
+    private final Label statusLabel = new Label("No image loaded");
 
     @Override
     public void start(Stage stage) {
 
-        Button openBtn = new Button("Open Image");
-        Button cropBtn = new Button("Crop");
-        Button rotateBtn = new Button("Rotate");
-        Button brightnessBtn = new Button("Brightness");
+        // Configure image view
+        imageView.setFitWidth(1100);
+        imageView.setFitHeight(650);
+        imageView.setPreserveRatio(true);
 
+        // Buttons (same as final UI)
+        Button openBtn       = new Button("Open Image");
+        Button transposeBtn  = new Button("Transpose");
+        Button grayscaleBtn  = new Button("Grayscale");
+        Button rotateBtn     = new Button("Rotate");
+        Button contrastBtn   = new Button("Increase Contrast");
+        Button brightnessBtn = new Button("Increase Brightness");
+        Button saveBtn       = new Button("Save Image");
+
+        // Button actions (UI-only, no backend)
         openBtn.setOnAction(e -> openImage(stage));
-        cropBtn.setOnAction(e -> selectTool("Crop"));
-        rotateBtn.setOnAction(e -> selectTool("Rotate"));
-        brightnessBtn.setOnAction(e -> selectTool("Brightness"));
 
-        VBox root = new VBox(10, openBtn, cropBtn, rotateBtn, brightnessBtn, imageView, statusLabel);
+        transposeBtn.setOnAction(e -> updateStatus("Transpose selected"));
+        grayscaleBtn.setOnAction(e -> updateStatus("Grayscale selected"));
+        rotateBtn.setOnAction(e -> updateStatus("Rotate selected"));
+        contrastBtn.setOnAction(e -> updateStatus("Increase Contrast selected"));
+        brightnessBtn.setOnAction(e -> updateStatus("Increase Brightness selected"));
+        saveBtn.setOnAction(e -> updateStatus("Save action triggered"));
+
+        // Toolbar (same layout as final)
+        HBox toolbar = new HBox(10,
+                openBtn,
+                transposeBtn,
+                grayscaleBtn,
+                rotateBtn,
+                contrastBtn,
+                brightnessBtn,
+                saveBtn
+        );
+        toolbar.setAlignment(javafx.geometry.Pos.CENTER);
+
+        // Root layout
+        VBox root = new VBox(10, toolbar, imageView, statusLabel);
+        root.setAlignment(javafx.geometry.Pos.CENTER);
 
         Scene scene = new Scene(root, 1200, 800);
 
@@ -44,15 +73,18 @@ public class Main extends Application {
         File file = fileChooser.showOpenDialog(stage);
 
         if (file != null) {
-            Image image = new Image(file.toURI().toString());
+            image = new Image(file.toURI().toString());
             imageView.setImage(image);
-            statusLabel.setText("Image Loaded");
+            statusLabel.setText("Image loaded: " + file.getName());
         }
     }
 
-    private void selectTool(String tool) {
-        activeTool = tool;
-        statusLabel.setText("Active Tool: " + tool);
+    private void updateStatus(String message) {
+        if (image == null) {
+            statusLabel.setText("Load an image first!");
+        } else {
+            statusLabel.setText(message);
+        }
     }
 
     public static void main(String[] args) {
