@@ -35,7 +35,7 @@ public class Main extends Application {
     public void start(Stage stage) {
 
 
-        // ── Toolbar buttons ───────────────────────────────────────────────────
+        //Toolbar buttons 
         Button openBtn       = new Button("📂  Open Image");
         Button saveBtn       = new Button("💾  Save Image");
         Button transposeBtn  = new Button("Transpose");
@@ -57,7 +57,7 @@ public class Main extends Application {
         toolbar.setAlignment(Pos.CENTER_LEFT);
         toolbar.setStyle("-fx-background-color: #3c3f41; -fx-border-color: #555; -fx-border-width: 0 0 1 0;");
 
-        // ── Image View ────────────────────────────────────────────────────────
+        // Image View 
         imageView.setFitWidth(1000);
         imageView.setFitHeight(600);
         imageView.setPreserveRatio(true);
@@ -72,7 +72,7 @@ public class Main extends Application {
         scrollPane.setFitToHeight(true);
         scrollPane.setStyle("-fx-background-color: #1e1e1e;");
 
-        // ── Right Panel ───────────────────────────────────────────────────────
+        // Right Panel 
         Label adjTitle = new Label("Adjustments Panel");
         adjTitle.setStyle("-fx-font-weight: bold; -fx-font-size: 14px;");
 
@@ -123,7 +123,7 @@ public class Main extends Application {
         rightPanel.setPrefWidth(210);
         rightPanel.setStyle("-fx-background-color: #3c3f41; -fx-border-color: #555; -fx-border-width: 0 0 0 1;");
 
-        // ── Status Bar ────────────────────────────────────────────────────────
+        // Status Bar 
         Button undoBtn = new Button("↩  Undo");
         HBox statusBar = new HBox(fileLabel, new Region(), dimLabel, new Region(), undoBtn);
         HBox.setHgrow(statusBar.getChildren().get(1), Priority.ALWAYS);
@@ -132,7 +132,7 @@ public class Main extends Application {
         statusBar.setAlignment(Pos.CENTER_LEFT);
         statusBar.setStyle("-fx-background-color: #3c3f41; -fx-border-color: #555; -fx-border-width: 1 0 0 0;");
 
-        // ── Root Layout ───────────────────────────────────────────────────────
+        // Root Layout 
         VBox topSection = new VBox(toolbar);
 
         BorderPane root = new BorderPane();
@@ -142,7 +142,7 @@ public class Main extends Application {
         root.setBottom(statusBar);
         root.setStyle("-fx-background-color: #2b2b2b;");
 
-        // ── Event Handlers ────────────────────────────────────────────────────
+        //Event Handlers 
 
         openBtn.setOnAction(e -> {
             FileChooser fc = new FileChooser();
@@ -214,7 +214,7 @@ public class Main extends Application {
             }
         });
 
-        // ── Stage ─────────────────────────────────────────────────────────────
+        //Stage
         stage.setTitle("Photo Editor Pro");
         stage.setScene(new Scene(root, 1280, 820));
         stage.show();

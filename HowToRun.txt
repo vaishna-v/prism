@@ -1,1 +1,13 @@
+HOW TO RUN
+
+This project assumes that JavaFX SDK is installed at:
+
+C:\Program Files\Java\javafx-sdk-25.0.3\lib
+
+If JavaFX is installed in a different location on your system, update the --module-path in the command accordingly.
+
+
+
+
+Compile and run using:
 javac --module-path "C:\Program Files\Java\javafx-sdk-25.0.3\lib" --add-modules javafx.controls,javafx.swing -cp . Main.java ImageState.java Engine\Engine.java && java --module-path "C:\Program Files\Java\javafx-sdk-25.0.3\lib" --add-modules javafx.controls,javafx.swing -cp . Main
